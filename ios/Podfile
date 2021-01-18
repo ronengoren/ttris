@@ -7,7 +7,7 @@ target 'tetris' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
-
+  pod 'Google-Mobile-Ads-SDK', '~> 7.69'
   target 'tetrisTests' do
     inherit! :complete
     # Pods for testing

@@ -6,7 +6,7 @@ const Display = ({gameOver, text}) => (
     style={{
       backgroundColor: '#000',
       alignItems: 'center',
-      padding: 20,
+      padding: 10,
       borderWidth: 4,
       borderRadius: 20,
       borderColor: '#333',

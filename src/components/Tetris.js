@@ -166,9 +166,9 @@ const Tetris = () => {
               </View>
             </Modal>
           </View>
-          <Display gameOver={gameOver} text={`Score: ${score}`} />
-          <Display gameOver={gameOver} text={`rows: ${rows}`} />
-          <Display gameOver={gameOver} text={`Level: ${level}`} />
+          <Display gameOver={gameOver} text={`SCORE: ${score}`} />
+          <Display gameOver={gameOver} text={`ROWS: ${rows}`} />
+          <Display gameOver={gameOver} text={`LEVEL: ${level}`} />
         </View>
       )}
 

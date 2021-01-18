@@ -143,7 +143,7 @@ const Tetris = () => {
           style={{
             flexDirection: 'row',
             marginBottom: 10,
-            width: '100%',
+            width: '90%',
             justifyContent: 'space-between',
           }}>
           <View style={styles.centeredView}>
@@ -234,7 +234,7 @@ const Tetris = () => {
         <BannerExample title="AdMob - Basic">
           <AdMobBanner
             adSize="smartBannerPortrait"
-            adUnitID="ca-app-pub-3940256099942544/6300978111"
+            adUnitID="ca-app-pub-5713671504596281/6322566273"
             testDevices={[AdMobBanner.simulatorId]}
             onAdFailedToLoad={(error) => console.error(error)}
           />

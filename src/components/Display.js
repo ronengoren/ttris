@@ -8,10 +8,10 @@ const Display = ({gameOver, text}) => (
       alignItems: 'center',
       padding: 10,
       borderWidth: 4,
-      borderRadius: 20,
+      borderRadius: 140,
       borderColor: '#333',
     }}>
-    <Text style={{fontSize: 20, color: gameOver ? 'red' : '#999'}}>{text}</Text>
+    <Text style={{fontSize: 15, color: gameOver ? 'red' : '#999'}}>{text}</Text>
   </View>
 );
 

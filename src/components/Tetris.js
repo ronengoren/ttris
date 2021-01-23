@@ -26,6 +26,13 @@ import {
   AdMobRewarded,
 } from 'react-native-admob';
 import LottieView from 'lottie-react-native';
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
+import Grid from './Grid';
+
+const {width, height} = Dimensions.get('window');
 
 const BannerExample = ({style, title, children, ...props}) => (
   <View {...props} style={[styles.example, style]}>
@@ -135,55 +142,135 @@ const Tetris = () => {
   return (
     <ImageBackground
       source={background}
-      style={{width: '100%', height: '100%', justifyContent: 'center'}}>
-      {gameOver ? (
+      style={{
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+      }}>
+      <View style={styles.container}></View>
+    </ImageBackground>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  img: {
+    width: 50,
+    height: 50,
+  },
+});
+
+// <Grid w={10} h={24} />
+
+// const styles = StyleSheet.create({
+//   button: {
+//     width: 60,
+//     height: 60,
+//     borderRadius: 5,
+//     borderColor: '#333',
+//     backgroundColor: '#000',
+//     borderWidth: 4,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   example: {
+//     // paddingVertical: 10,
+//     position: 'absolute',
+//     width: widthPercentageToDP('100%'),
+//     // height: heightPercentageToDP('17%'),
+//     bottom: 0,
+//     justifyContent: 'center',
+//   },
+//   banner: {
+//     // paddingVertical: 10,
+//     position: 'absolute',
+//     // width: widthPercentageToDP('10%'),
+//     // height: heightPercentageToDP('17%'),
+//     bottom: 0,
+//     justifyContent: 'center',
+//   },
+//   title: {
+//     margin: 10,
+//     fontSize: 20,
+//   },
+//   container: {
+//     position: 'absolute',
+//     bottom: 0,
+//   },
+//   centeredView: {
+//     // flex: 1,
+//     // justifyContent: 'center',
+//     // alignItems: 'center',
+//     // marginTop: 22,
+//   },
+//   modalView: {
+//     flex: 1,
+//     margin: 20,
+//     // backgroundColor: 'white',
+//     borderRadius: 20,
+//     padding: 35,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 3.84,
+//     elevation: 5,
+//   },
+//   openButton: {
+//     backgroundColor: '#F194FF',
+//     borderRadius: 20,
+//     padding: 10,
+//     elevation: 2,
+//   },
+//   textStyle: {
+//     color: 'white',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   modalText: {
+//     marginBottom: 15,
+//     textAlign: 'center',
+//   },
+// });
+
+export default Tetris;
+
+{
+  /* {gameOver ? (
         <Display gameOver={gameOver} text="Game Over" />
       ) : (
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: 10,
-            width: '90%',
+            marginTop: Platform.OS === 'ios' ? 30 : 10,
+
             justifyContent: 'space-between',
           }}>
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-              }}>
-              <View style={styles.modalView}>
-                <LottieView
-                  ref={setAnim}
-                  autoPlay={!progress}
-                  source={require('../../img/animations/wrongAnswer')}
-                  progress={progress}
-                  loop={false}
-                  enableMergePathsAndroidForKitKatAndAbove
-                />
-              </View>
-            </Modal>
-          </View>
           <Display gameOver={gameOver} text={`SCORE: ${score}`} />
           <Display gameOver={gameOver} text={`ROWS: ${rows}`} />
           <Display gameOver={gameOver} text={`LEVEL: ${level}`} />
         </View>
       )}
+      <Stage stage={stage} />
 
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'center',
+          width: widthPercentageToDP('100%'),
+          height: heightPercentageToDP('40%'),
+          // flexDirection: 'row',
+          // justifyContent: 'space-around',
+          // alignItems: 'center',
         }}>
-        <Stage stage={stage} />
         <View
           style={{
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            alignItems: 'center',
+            flexDirection: 'row',
+            // justifyContent: 'space-around',
+            // alignItems: 'center',
           }}>
           <TouchableOpacity style={styles.button} onPress={() => startGame()}>
             <Icon name="play-outline" style={{color: '#FFF', fontSize: 40}} />
@@ -199,121 +286,68 @@ const Tetris = () => {
             />
           </TouchableOpacity>
         </View>
-      </View>
-      <TouchableOpacity
-        onPress={() => playerRotate(stage)}
-        style={[styles.button, {alignSelf: 'center', marginTop: 10}]}>
-        <Icon name="flash-outline" color="#FFF" size={16} />
-      </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          // alignItems: 'center'
-        }}>
-        <TouchableOpacity onPress={() => movePlayer(-1)} style={styles.button}>
-          <Icon name="arrow-back-outline" color="#FFF" size={16} />
+
+        <TouchableOpacity
+          onPress={() => playerRotate(stage)}
+          style={[styles.button, {alignSelf: 'center', marginTop: 0}]}>
+          <Icon name="flash-outline" color="#FFF" size={16} />
         </TouchableOpacity>
         <View
-          style={[
-            styles.button,
-            {borderWidth: 0, backgroundColor: 'transparent'},
-          ]}
-        />
-        <TouchableOpacity onPress={() => movePlayer(1)} style={styles.button}>
-          <Icon name="arrow-forward-outline" size={16} color="#FFF" />
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            // alignItems: 'center'
+          }}>
+          <TouchableOpacity
+            onPress={() => movePlayer(-1)}
+            style={styles.button}>
+            <Icon name="arrow-back-outline" color="#FFF" size={16} />
+          </TouchableOpacity>
+          <View
+            style={[
+              styles.button,
+              {borderWidth: 0, backgroundColor: 'transparent'},
+            ]}
+          />
+          <TouchableOpacity onPress={() => movePlayer(1)} style={styles.button}>
+            <Icon name="arrow-forward-outline" size={16} color="#FFF" />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          onPress={() => dropPlayer()}
+          style={[styles.button, {alignSelf: 'center', marginBottom: 90}]}>
+          <Icon name="arrow-down-outline" size={16} color="#FFF" />
         </TouchableOpacity>
-      </View>
-      <TouchableOpacity
-        onPress={() => dropPlayer()}
-        style={[styles.button, {alignSelf: 'center', marginBottom: 90}]}>
-        <Icon name="arrow-down-outline" size={16} color="#FFF" />
-      </TouchableOpacity>
 
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <View style={styles.modalView}>
+              <LottieView
+                ref={setAnim}
+                autoPlay={!progress}
+                source={require('../../img/animations/wrongAnswer')}
+                progress={progress}
+                loop={false}
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+          </Modal>
+        </View>
+      </View>
       <View style={styles.banner}>
         <BannerExample title="AdMob - Basic">
           <AdMobBanner
             adSize="smartBannerPortrait"
-            adUnitID="ca-app-pub-5713671504596281/6322566273"
+            adUnitID="ca-app-pub-3940256099942544/2934735716"
             testDevices={[AdMobBanner.simulatorId]}
             onAdFailedToLoad={(error) => console.error(error)}
           />
         </BannerExample>
-      </View>
-    </ImageBackground>
-  );
-};
-
-const styles = StyleSheet.create({
-  button: {
-    width: 60,
-    height: 60,
-    borderRadius: 5,
-    borderColor: '#333',
-    backgroundColor: '#000',
-    borderWidth: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  example: {
-    // paddingVertical: 10,
-    position: 'absolute',
-
-    bottom: 0,
-  },
-  banner: {
-    // paddingVertical: 10,
-    position: 'absolute',
-
-    bottom: 0,
-    justifyContent: 'center',
-  },
-  title: {
-    margin: 10,
-    fontSize: 20,
-  },
-  container: {
-    marginTop: Platform.OS === 'ios' ? 30 : 10,
-    position: 'absolute',
-    bottom: 0,
-  },
-  centeredView: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // marginTop: 22,
-  },
-  modalView: {
-    flex: 1,
-    margin: 20,
-    // backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});
-
-export default Tetris;
+      </View> */
+}

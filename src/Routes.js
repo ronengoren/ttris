@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import GameMenu from './GameMenu';
 import Game from './Game';
+import Test from './Test';
 
 function HomeScreen() {
   return (

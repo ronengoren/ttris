@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   Dimensions,
   Text,
+  Modal,
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -42,6 +45,7 @@ const BannerExample = ({style, title, children, ...props}) => (
 export default function App({navigation, route}) {
   const [running, setRunning] = useState(true);
   const [pauseGame, setPauseGame] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [score, setScore] = useState(0);
   var engine = useRef();
@@ -69,8 +73,9 @@ export default function App({navigation, route}) {
         gameMenuFunction(true);
       }
 
-      Alert.alert('Game Over');
-      navigation.navigate('GameMenu');
+      // Alert.alert('Game Over');
+      // navigation.navigate('GameMenu');
+      setModalVisible(true);
     } else if (e.type === 'add-score') {
       setScore(score + e.score);
     }
@@ -106,7 +111,16 @@ export default function App({navigation, route}) {
         <StatusBar hidden={true} />
 
         <Score score={score} />
-
+        {/* <View style={styles.banner}>
+          <BannerExample title="AdMob - Basic">
+            <AdMobBanner
+              adSize="smartBannerPortrait"
+              adUnitID="ca-app-pub-3940256099942544/2934735716"
+              testDevices={[AdMobBanner.simulatorId]}
+              onAdFailedToLoad={(error) => console.error(error)}
+            />
+          </BannerExample>
+        </View> */}
         <GameEngine
           ref={(ref) => {
             engine = ref;
@@ -142,22 +156,44 @@ export default function App({navigation, route}) {
           />
         </View>
       </GestureRecognizer>
-      <TouchableOpacity
-        onPress={() => {
-          setRunning(true);
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
         }}>
-        <Text>stop</Text>
-      </TouchableOpacity>
-      <View style={styles.banner}>
-        <BannerExample title="AdMob - Basic">
-          {/* <AdMobBanner
-            adSize="smartBannerPortrait"
-            adUnitID="ca-app-pub-3940256099942544/2934735716"
-            testDevices={[AdMobBanner.simulatorId]}
-            onAdFailedToLoad={(error) => console.error(error)}
-          /> */}
-        </BannerExample>
-      </View>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>GAME OVER!</Text>
+            <Text style={styles.modalText}>PLAY ANOTHER GAME?</Text>
+            <View style={styles.modalViewButton}>
+              <TouchableHighlight
+                style={{...styles.openButton}}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../src/assets/blue.png')}
+                />
+                {/* <Text style={styles.textStyle}>YES</Text> */}
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={{...styles.openButton}}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../src/assets/red.png')}
+                />
+                {/* <Text style={styles.textStyle}>NO</Text> */}
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -166,10 +202,12 @@ export default function App({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    // paddingVertical: 14,
+
+    backgroundColor: 'black',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    // flexDirection: 'column',
   },
 
   buttons: {
@@ -188,5 +226,56 @@ const styles = StyleSheet.create({
     // height: heightPercentageToDP('17%'),
     bottom: 0,
     justifyContent: 'center',
+  },
+  gameEngine: {
+    bottom: 0,
+    justifyContent: 'center',
+
+    // paddingBottom: 14,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    // backgroundColor: '#F194FF',
+    // borderRadius: 50,
+    padding: 10,
+    elevation: 2,
+    margin: 4,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalViewButton: {
+    flexDirection: 'row',
+    // margin: 40,
+  },
+  tinyLogo: {
+    width: 80,
+    height: 80,
   },
 });

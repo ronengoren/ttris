@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
+import bestscorebg from '../assets/bestscorebg.png';
 
 export default function BestScores({data}) {
   const renderScores = () => {
@@ -14,9 +15,14 @@ export default function BestScores({data}) {
     <View style={styles.container}>
       {data && (
         <View style={styles.scores}>
-          <Text style={[styles.text, {fontSize: 20, marginBottom: 5}]}>
-            Best scores
-          </Text>
+          <Image style={styles.tinyLogo} source={bestscorebg} />
+          {/* <Text
+            style={[
+              styles.text,
+              {fontSize: 18, marginBottom: 5, fontWeight: 'bold'},
+            ]}>
+            YOUR BEST SCORES
+          </Text> */}
           {renderScores()}
         </View>
       )}
@@ -26,15 +32,32 @@ export default function BestScores({data}) {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    width: 75 + '%',
+    margin: 40,
+    // position: 'absolute',
     bottom: 0,
     left: 0,
-    paddingLeft: 30,
-    paddingBottom: 80,
+    padding: 25,
+    paddingBottom: 50,
+    // borderRadius: 30,
+    borderColor: 'white',
+    borderWidth: 2,
+    backgroundColor: 'black',
   },
 
   text: {
-    fontSize: 14,
-    color: '#FFF',
+    fontSize: 15,
+    color: '#88FF55',
+    // paddingBottom: 5,
+
+    // borderRadius: 20,
+  },
+  tinyLogo: {
+    width: 80 + '%',
+    height: 19,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
   },
 });

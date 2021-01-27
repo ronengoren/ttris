@@ -10,6 +10,17 @@ import red from '../assets/red.png';
 import yellow from '../assets/yellow.png';
 import gray from '../assets/gray.png';
 
+import litegreen from '../assets/litegreen.png';
+import tuquie from '../assets/tuquie.png';
+import redbrown from '../assets/redbrown.png';
+import litepink from '../assets/litepink.png';
+import peach from '../assets/peach.png';
+import bordo from '../assets/bordo.png';
+import liteyellow from '../assets/liteyellow.png';
+import graypink from '../assets/graypink.png';
+
+import pinkpeach from '../assets/pinkpeach.png';
+
 import {CELL_LENGTH} from '../Constants';
 
 export default class Cell extends PureComponent {
@@ -17,35 +28,35 @@ export default class Cell extends PureComponent {
     const color = (c) => {
       switch (c) {
         case 'green': {
-          return green;
+          return litegreen;
         }
 
         case 'brown': {
-          return brown;
+          return redbrown;
         }
 
         case 'blue': {
-          return blue;
+          return tuquie;
         }
 
         case 'purple': {
-          return purple;
+          return peach;
         }
 
         case 'pink': {
-          return pink;
+          return litepink;
         }
 
         case 'red': {
-          return red;
+          return bordo;
         }
 
         case 'yellow': {
-          return yellow;
+          return liteyellow;
         }
 
         default: {
-          return gray;
+          return graypink;
         }
       }
     };
@@ -60,27 +71,3 @@ export default class Cell extends PureComponent {
     );
   }
 }
-
-// import React from 'react';
-// import {View} from 'react-native';
-// import {TETROMINOS} from '../tetrominos';
-// import {
-//   widthPercentageToDP,
-//   heightPercentageToDP,
-// } from 'react-native-responsive-screen';
-
-// const Cell = ({type}) => (
-//   <View
-//     style={{
-//       width: 20,
-//       height: 20,
-//       backgroundColor: `rgba(${TETROMINOS[type].color}, 0.8)`,
-//       borderWidth: type === 0 ? 0 : 4,
-//       borderBottomColor: `rgba(${TETROMINOS[type].color}, 0.1)`,
-//       borderRightColor: `rgba(${TETROMINOS[type].color}, 1)`,
-//       borderTopColor: `rgba(${TETROMINOS[type].color}, 1)`,
-//       borderLeftColor: `rgba(${TETROMINOS[type].color}, 0.3)`,
-//     }}></View>
-// );
-
-// export default React.memo(Cell);

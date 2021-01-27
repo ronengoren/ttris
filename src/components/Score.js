@@ -16,13 +16,14 @@ const styles = StyleSheet.create({
   score: {
     height: 50,
     width: Dimensions.get('window').width,
-    backgroundColor: '#F08080',
+    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   txtScore: {
-    color: '#FFF',
+    color: '#88FF55',
     fontSize: 22,
+    fontFamily: 'Iowan Old Style',
   },
 });

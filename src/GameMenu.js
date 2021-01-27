@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   SafeAreaView,
   View,
@@ -20,7 +20,12 @@ import * as Animatable from 'react-native-animatable';
 import BestScores from './components/BestScores';
 
 import logo from './assets/logo.png';
-const SliderWidth = Dimensions.get('screen').width;
+import pressstart from './assets/pressstart.png';
+import openhowto from './assets/openhowto.png';
+import closehowto from './assets/closehowto.png';
+import score from './assets/score.png';
+
+const SliderWidth = Dimensions.get('window').width - 200;
 const IS_ANDROID = Platform.OS === 'android';
 const IS_IOS = Platform.OS === 'ios';
 const entryBorderRadius = 8;
@@ -28,7 +33,7 @@ const entryBorderRadius = 8;
 const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
-export default function GameMenu({navigation}) {
+export default function GameMenu({navigation, route}) {
   const [anim, setAnim] = useState();
   const [activeIndex, setActivateIndex] = useState(0);
   const [progress, setProgress] = useState(null);
@@ -38,49 +43,52 @@ export default function GameMenu({navigation}) {
       id: '1',
       title: 'TAP OR SWIPE RIGHT & LEFT TO MOVE BRICKS',
       lottiAnimation: require('../img/animations/rightHelper.json'),
-      slideBackground: require('../src/assets/blue.png'),
+      slideBackground: require('../src/assets/inappbordo.png'),
       screen: 'TOUCH OR SWIPE TO MOVE BRICKS',
     },
     {
       id: '2',
       title: 'SWIPE DOWN TO DROP A BRICK',
       lottiAnimation: require('../img/animations/swipeDownHelper.json'),
-      slideBackground: require('../src/assets/green.png'),
+      slideBackground: require('../src/assets/inappbrown.png'),
       screen: 'swipeDownHelper',
     },
     {
       id: '3',
       title: 'SWIPE UP TO ROTATE A BRICK',
       lottiAnimation: require('../img/animations/leftHelper.json'),
-      slideBackground: require('../src/assets/pink.png'),
+      slideBackground: require('../src/assets/inappgreen.png'),
       screen: 'leftHelper',
     },
     {
       id: '4',
-      title: 'PLACE 2 FINGERS ANYWHERE ON THE SCREEN TO PAUSE',
+      title: 'TAP WITH 2 FINGERS SCREEN TO PAUSE',
       lottiAnimation: require('../img/animations/pauseHelper.json'),
-      slideBackground: require('../src/assets/purple.png'),
+      slideBackground: require('../src/assets/inappturquize.png'),
       screen: 'pauseHelper',
     },
     {
       id: '5',
-      title: 'PLACE 3 FINGERS ANYWHERE ON THE SCREEN TO UNPAUSE',
+      title: 'TAP WITH 3 FINGERS TO UNPAUSE',
       lottiAnimation: require('../img/animations/unPauseHelper.json'),
-      slideBackground: require('../src/assets/yellow.png'),
+      slideBackground: require('../src/assets/inappyellow.png'),
       screen: 'Quiz',
     },
   ]);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [gameOver, setGameOver] = useState(true);
+  const [restartGame, setRestartGame] = useState(false);
   const [bestScores, setBestScores] = useState(null);
   const [background, setBackground] = useState({
     uri: 'https://picsum.photos/500/900',
   });
+
   useEffect(() => {
     async function scores() {
       try {
         let data = await AsyncStorage.getItem('Best_Scores');
+
         setBestScores(JSON.parse(data));
         setGameOver(false);
       } catch (e) {
@@ -105,8 +113,12 @@ export default function GameMenu({navigation}) {
   };
 
   StartGame = async () => {
-    navigation.navigate('Game', {setGameOver});
+    navigation.navigate('Game', {setGameOver, setRestartGame});
     ChangeBackground();
+  };
+
+  RestartGame = () => {
+    // console.log(restartGame);
   };
 
   const renderPagination = () => (
@@ -125,10 +137,10 @@ export default function GameMenu({navigation}) {
         style={{
           borderRadius: 5,
           height: 250,
-          padding: 50,
+          padding: 40,
           marginLeft: 25,
           marginRight: 25,
-          marginTop: 35,
+          marginTop: 145,
         }}>
         <LottieView
           autoPlay
@@ -154,36 +166,24 @@ export default function GameMenu({navigation}) {
         <Image source={logo} style={styles.logo} />
 
         <Animatable.View
-          animation="pulse"
+          animation="jello"
           easing="ease-out"
           iterationCount="infinite">
           <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
-            <Text style={styles.txtBtnStart}>START</Text>
+            <Image source={pressstart} style={styles.logo} />
           </TouchableOpacity>
         </Animatable.View>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Carousel
-            layout={'default'}
-            ref={this.carouselRef}
-            data={carouselStateAsset}
-            sliderWidth={SliderWidth}
-            itemWidth={300}
-            hasParallaxImages={true}
-            inactiveSlideScale={0.94}
-            inactiveSlideOpacity={0.7}
-            containerCustomStyle={styles.slider}
-            contentContainerCustomStyle={styles.sliderContentContainer}
-            renderItem={this._renderItem}
-            useScrollView
-            onSnapToItem={(index) => setActivateIndex(index)}
-            activeSlideAlignment="center"
-          />
-        </View>
-        {renderPagination()}
-
+        <TouchableOpacity
+          style={styles.openButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <Image source={openhowto} style={styles.logo} />
+        </TouchableOpacity>
         <BestScores data={bestScores}></BestScores>
       </SafeAreaView>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -193,16 +193,43 @@ export default function GameMenu({navigation}) {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-
-            <TouchableHighlight
-              style={{...styles.openButton, backgroundColor: '#2196F3'}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 40 + '%',
+                height: 40 + '%',
               }}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
+              <Carousel
+                autoplay={true}
+                enableMomentum={false}
+                lockScrollWhileSnapping={true}
+                layout={'default'}
+                ref={this.carouselRef}
+                data={carouselStateAsset}
+                sliderWidth={SliderWidth}
+                itemWidth={200}
+                hasParallaxImages={true}
+                inactiveSlideScale={0.94}
+                inactiveSlideOpacity={0.7}
+                containerCustomStyle={styles.slider}
+                contentContainerCustomStyle={styles.sliderContentContainer}
+                renderItem={this._renderItem}
+                useScrollView
+                onSnapToItem={(index) => setActivateIndex(index)}
+                activeSlideAlignment="center"
+              />
+            </View>
           </View>
+          {renderPagination()}
+
+          <TouchableOpacity
+            style={{...styles.openButton}}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <Image source={closehowto} style={styles.logo} />
+          </TouchableOpacity>
         </View>
       </Modal>
     </ImageBackground>
@@ -218,13 +245,14 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 200,
-    height: 40,
-    marginBottom: 30,
+    width: 300,
+    height: 60,
+    marginBottom: 70,
   },
 
   btnStart: {
-    backgroundColor: '#FFF',
+    // paddingTop: 30,
+    // backgroundColor: '#FFF',
   },
 
   txtBtnStart: {
@@ -241,7 +269,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -255,7 +283,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#F194FF',
+    // backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -270,7 +298,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   animation: {
-    width: 150,
+    width: 80,
+
+    // height: 100,
   },
   image: {
     ...StyleSheet.absoluteFillObject,
@@ -283,7 +313,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   slider: {
-    marginTop: 15,
+    // marginTop: 5,
     overflow: 'visible', // for custom animations
   },
   sliderContentContainer: {
@@ -297,11 +327,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: entryBorderRadius,
   },
   title: {
-    // textAlign: 'center',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // alignSelf: 'center',
+    fontSize: 12,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
     fontWeight: 'bold',
-    // textAlign: 'center',
+    textAlign: 'center',
+    // backgroundColor: 'black',
+    marginBottom: 50,
+  },
+  dotStyle: {
+    // marginBottom: 60,
+  },
+  paginationContainer: {
+    marginTop: 60,
   },
 });

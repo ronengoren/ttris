@@ -1,6 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 import bestscorebg from '../assets/bestscorebg.png';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  AdMobRewarded,
+  PublisherBanner,
+} from 'react-native-admob';
+
+const BannerExample = ({style, title, children, ...props}) => (
+  <View {...props} style={[styles.example, style]}>
+    <Text style={styles.title}>{title}</Text>
+    <View>{children}</View>
+  </View>
+);
+
+const bannerWidths = [200, 250, 320];
 
 export default function BestScores({data}) {
   const renderScores = () => {
@@ -13,9 +28,9 @@ export default function BestScores({data}) {
 
   return (
     <View style={styles.container}>
+      <Image style={styles.tinyLogo} source={bestscorebg} />
       {data && (
         <View style={styles.scores}>
-          <Image style={styles.tinyLogo} source={bestscorebg} />
           {/* <Text
             style={[
               styles.text,
@@ -32,13 +47,17 @@ export default function BestScores({data}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 75 + '%',
-    margin: 40,
+    width: Dimensions.get('window').width / 1.3,
+
+    // margin: 40,
+    height: Dimensions.get('window').height / 4,
     // position: 'absolute',
     bottom: 0,
     left: 0,
-    padding: 25,
-    paddingBottom: 50,
+    // padding: 25,
+    paddingBottom: 25,
+    paddingTop: 20,
+
     // borderRadius: 30,
     borderColor: 'white',
     borderWidth: 2,
@@ -46,17 +65,19 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 15,
+    fontSize: 20,
     color: '#88FF55',
+    paddingLeft: 20,
+    fontFamily: 'EarlsRevenge',
+
     // paddingBottom: 5,
 
     // borderRadius: 20,
   },
   tinyLogo: {
     width: 80 + '%',
-    height: 19,
+    height: 17,
     justifyContent: 'center',
-    alignItems: 'center',
     alignItems: 'center',
     marginBottom: 20,
   },

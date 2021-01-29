@@ -24,23 +24,17 @@ import LottieView from 'lottie-react-native';
 
 import Grid from './components/Grid';
 
-import NativeAdView, {
-  CallToActionView,
-  IconView,
-  HeadlineView,
-  TaglineView,
-  AdvertiserView,
-  AdBadge,
-  StarRatingView,
-  MediaView,
-  StoreView,
-} from 'react-native-admob-native-ads';
 import {
   NUMBER_OF_CELLS_HORIZONTAL,
   NUMBER_OF_CELLS_VERTICAL,
   GAME_SPEED,
 } from './Constants';
-
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  AdMobRewarded,
+  PublisherBanner,
+} from 'react-native-admob';
 import {addScore} from './Data/score';
 
 import playagain from './assets/playagain.png';
@@ -48,8 +42,7 @@ import playagain from './assets/playagain.png';
 import gameoveralert from './assets/gameoveralert.png';
 import Score from './components/Score';
 
-playagain;
-const BannerExample = ({style, title, children, ...props}) => (
+const BannerExample = ({style, children, ...props}) => (
   <View {...props} style={[styles.example, style]}>
     {/* <Text style={styles.title}>{title}</Text> */}
     <View>{children}</View>
@@ -68,10 +61,14 @@ export default function App({navigation, route}) {
   const [countInTimeout, setCountInTimeout] = useState(0);
   const [focused, setFocused] = useState(false);
 
-  const [running, setRunning] = useState(true);
+  const [running, setRunning] = useState(false);
   const [pauseGame, setPauseGame] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVideoVisible, setModalVideoVisible] = useState(false);
+  const [loadingModalVideoVisible, setLoadingModalVideoVisible] = useState(
+    true,
+  );
+
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(10);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(-10);
   const [shadowRadius, setShadowRadius] = useState(3);
@@ -85,6 +82,13 @@ export default function App({navigation, route}) {
     duration: 5000,
     useNativeDriver: true,
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingModalVideoVisible(false);
+      setRunning(true);
+    }, 5000);
+  }, []);
 
   useEffect(() => {
     animationOneAV.setValue(0);
@@ -151,7 +155,7 @@ export default function App({navigation, route}) {
   const onFinishAdForNewGame = () => {
     let gameMenuFunction = route.params?.setGameOver ?? true;
     gameMenuFunction(true);
-    let engine;
+
     gameEngine.swap({
       grid: {
         grid: renderGrid(),
@@ -229,6 +233,7 @@ export default function App({navigation, route}) {
               <View
                 style={{
                   flex: 1,
+                  marginBottom: 20,
                 }}>
                 <Image style={styles.gameover} source={gameoveralert} />
                 <Image style={styles.gameover} source={playagain} />
@@ -272,55 +277,16 @@ export default function App({navigation, route}) {
                     />
                   </TouchableHighlight>
                 </View>
-
-                <NativeAdView
-                  style={{
-                    width: '95%',
-                    alignSelf: 'center',
-                    height: 100,
-                  }}
-                  adUnitID="ca-app-pub-3940256099942544/2247696110" // TEST adUnitID
-                >
-                  <View
-                    style={{
-                      height: 100,
-                      width: '100%',
-                    }}>
-                    <AdBadge />
-                    <View
-                      style={{
-                        height: 100,
-                        width: '100%',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center',
-                        paddingHorizontal: 10,
-                      }}>
-                      <IconView
-                        style={{
-                          width: 60,
-                          height: 60,
-                        }}
-                      />
-                      <View
-                        style={{
-                          width: '65%',
-                          maxWidth: '65%',
-                          paddingHorizontal: 6,
-                        }}>
-                        <HeadlineView
-                          style={{
-                            fontWeight: 'bold',
-                            fontSize: 13,
-                          }}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                </NativeAdView>
               </View>
             </View>
           </View>
+          <BannerExample>
+            <AdMobBanner
+              adSize="smartBannerPortrait"
+              adUnitID="ca-app-pub-5713671504596281/1183271304"
+              ref={(el) => (this._smartBannerExample = el)}
+            />
+          </BannerExample>
         </View>
       </Modal>
       {modalVideoVisible ? (
@@ -338,21 +304,6 @@ export default function App({navigation, route}) {
                   style={{
                     flex: 1,
                   }}>
-                  {/* <Text style={styles.modalText}>{countInTimeout}</Text> */}
-                  {/* <CountDown
-                    until={5}
-                    onFinish={() => onFinishAdForNewGame()}
-                    // onPress={() => onFinishAdForNewGame()}
-                    size={20}
-                    timeLabels={{s: null}}
-                    timeToShow={['']}
-                    digitStyle={{
-                      backgroundColor: '#FFF',
-                      borderWidth: 2,
-                      borderColor: '#1CC625',
-                    }}
-                    digitTxtStyle={{color: '#1CC625'}}
-                  /> */}
                   <LottieView
                     autoPlay
                     loop={false}
@@ -362,108 +313,53 @@ export default function App({navigation, route}) {
                     // progress={animationOneAV}
                     onAnimationFinish={onRelease()}
                   />
-                  <NativeAdView
-                    refreshInterval={60000 * 2}
-                    style={{
-                      width: '98%',
-                      alignSelf: 'center',
-                      marginVertical: 10,
-                    }}
-                    adUnitID="ca-app-pub-3940256099942544/3986624511" // TEST adUnitID
-                  >
-                    <View
-                      style={{
-                        width: '100%',
-                      }}>
-                      <View
-                        style={{
-                          height: 100,
-                          width: '100%',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          paddingHorizontal: 10,
-                        }}>
-                        <IconView
-                          style={{
-                            width: 60,
-                            height: 60,
-                          }}
-                        />
-                        <View
-                          style={{
-                            width: '60%',
-                            maxWidth: '60%',
-                            paddingHorizontal: 6,
-                          }}>
-                          <HeadlineView
-                            hello="abc"
-                            style={{
-                              fontWeight: 'bold',
-                              fontSize: 13,
-                            }}
-                          />
-                          <TaglineView
-                            numberOfLines={2}
-                            style={{
-                              fontSize: 11,
-                            }}
-                          />
-                          <AdvertiserView
-                            style={{
-                              fontSize: 10,
-                              color: 'gray',
-                            }}
-                          />
-
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                            }}>
-                            <StarRatingView
-                              starSize={12}
-                              fullStarColor="orange"
-                              emptyStarColor="gray"
-                              containerStyle={{
-                                width: 65,
-                                marginTop: 4,
-                              }}
-                            />
-
-                            <StoreView
-                              style={{
-                                fontSize: 12,
-                                marginLeft: 10,
-                              }}
-                            />
-                          </View>
-                        </View>
-                        <CallToActionView
-                          style={{
-                            minHeight: 45,
-                            paddingHorizontal: 12,
-                            backgroundColor: 'purple',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 5,
-                            elevation: 10,
-                            maxWidth: 100,
-                          }}
-                          allCaps
-                          textStyle={{
-                            color: 'white',
-                            fontSize: 13,
-                            flexWrap: 'wrap',
-                            textAlign: 'center',
-                          }}
-                        />
-                      </View>
-                    </View>
-                  </NativeAdView>
                 </Animated.View>
               </View>
             </View>
+          </View>
+          <BannerExample>
+            <AdMobBanner
+              adSize="smartBannerPortrait"
+              adUnitID="ca-app-pub-5713671504596281/1183271304"
+              ref={(el) => (this._smartBannerExample = el)}
+            />
+          </BannerExample>
+        </Modal>
+      ) : null}
+      {loadingModalVideoVisible ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={loadingModalVideoVisible}
+          onRequestClose={() => {
+            setFocused(true);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalViewButton}>
+                <Animated.View
+                  style={{
+                    flex: 1,
+                  }}>
+                  <LottieView
+                    autoPlay
+                    loop={false}
+                    source={require('../img/animations/loading.json')}
+                    style={styles.animation}
+                    enableMergePathsAndroidForKitKatAndAbove
+                    // progress={animationOneAV}
+                    // onAnimationFinish={onRelease()}
+                  />
+                </Animated.View>
+              </View>
+            </View>
+            <BannerExample>
+              <AdMobBanner
+                adSize="smartBannerPortrait"
+                adUnitID="ca-app-pub-5713671504596281/1183271304"
+                ref={(el) => (this._smartBannerExample = el)}
+              />
+            </BannerExample>
           </View>
         </Modal>
       ) : null}
@@ -514,7 +410,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     // borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -558,11 +454,15 @@ const styles = StyleSheet.create({
   },
   gameover: {
     width: 100 + '%',
-    height: 80,
+    height: 50,
   },
   animation: {
-    width: 300,
+    width: 100 + '%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  example: {
+    position: 'absolute',
+    bottom: 1,
   },
 });

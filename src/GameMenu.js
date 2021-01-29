@@ -11,6 +11,7 @@ import {
   Modal,
   TouchableHighlight,
   Platform,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
@@ -24,7 +25,12 @@ import pressstart from './assets/pressstart.png';
 import openhowto from './assets/openhowto.png';
 import closehowto from './assets/closehowto.png';
 import score from './assets/score.png';
-
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  AdMobRewarded,
+  PublisherBanner,
+} from 'react-native-admob';
 const SliderWidth = Dimensions.get('window').width - 200;
 const IS_ANDROID = Platform.OS === 'android';
 const IS_IOS = Platform.OS === 'ios';
@@ -33,10 +39,21 @@ const entryBorderRadius = 8;
 const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+
+const BannerExample = ({style, title, children, ...props}) => (
+  <View {...props} style={[styles.example, style]}>
+    <Text style={styles.title}>{title}</Text>
+    <View>{children}</View>
+  </View>
+);
+
+const bannerWidths = [200, 250, 320];
+
 export default function GameMenu({navigation, route}) {
   const [anim, setAnim] = useState();
   const [activeIndex, setActivateIndex] = useState(0);
   const [progress, setProgress] = useState(null);
+  const [carouselRef, setCarouselRef] = useState(null);
 
   const [carouselStateAsset, setCarouselStateAsset] = useState([
     {
@@ -76,7 +93,7 @@ export default function GameMenu({navigation, route}) {
     },
   ]);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [fluidSizeIndex, setFluidSizeIndex] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [restartGame, setRestartGame] = useState(false);
   const [bestScores, setBestScores] = useState(null);
@@ -162,7 +179,7 @@ export default function GameMenu({navigation, route}) {
         height: '100%',
         justifyContent: 'center',
       }}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.bestScore}>
         <Image source={logo} style={styles.logo} />
 
         <Animatable.View
@@ -181,6 +198,7 @@ export default function GameMenu({navigation, route}) {
           }}>
           <Image source={openhowto} style={styles.logo} />
         </TouchableOpacity>
+
         <BestScores data={bestScores}></BestScores>
       </SafeAreaView>
 
@@ -189,7 +207,7 @@ export default function GameMenu({navigation, route}) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          console.log('Modal has been closed.');
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -197,15 +215,15 @@ export default function GameMenu({navigation, route}) {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 40 + '%',
-                height: 40 + '%',
+                // width: 40 + '%',
+                // height: 40 + '%',
               }}>
               <Carousel
                 autoplay={true}
                 enableMomentum={false}
                 lockScrollWhileSnapping={true}
                 layout={'default'}
-                ref={this.carouselRef}
+                ref={carouselRef}
                 data={carouselStateAsset}
                 sliderWidth={SliderWidth}
                 itemWidth={200}
@@ -214,7 +232,7 @@ export default function GameMenu({navigation, route}) {
                 inactiveSlideOpacity={0.7}
                 containerCustomStyle={styles.slider}
                 contentContainerCustomStyle={styles.sliderContentContainer}
-                renderItem={this._renderItem}
+                renderItem={_renderItem}
                 useScrollView
                 onSnapToItem={(index) => setActivateIndex(index)}
                 activeSlideAlignment="center"
@@ -232,6 +250,13 @@ export default function GameMenu({navigation, route}) {
           </TouchableOpacity>
         </View>
       </Modal>
+      <BannerExample>
+        <AdMobBanner
+          adSize="smartBannerPortrait"
+          adUnitID="ca-app-pub-5713671504596281/1183271304"
+          ref={(el) => (this._smartBannerExample = el)}
+        />
+      </BannerExample>
     </ImageBackground>
   );
 }
@@ -243,11 +268,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  bestScore: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
   logo: {
     width: 300,
     height: 60,
-    marginBottom: 70,
+    marginBottom: 30,
   },
 
   btnStart: {
@@ -270,22 +299,22 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     // backgroundColor: 'white',
-    borderRadius: 20,
+    // borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
     elevation: 5,
   },
   openButton: {
     // backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
+    // borderRadius: 20,
+    // padding: 10,
     elevation: 2,
   },
   textStyle: {
@@ -342,5 +371,9 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     marginTop: 60,
+  },
+  example: {
+    position: 'absolute',
+    bottom: 1,
   },
 });

@@ -20,6 +20,7 @@
 		89A7CFA124942910CFE517B3 /* libPods-tetris.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E1BCDE6763553E20C67AAA /* libPods-tetris.a */; };
 		905ED3FECCD6CF0771C228DE /* libPods-tetris-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA79C0716660156C4DC14CF /* libPods-tetris-tvOS.a */; };
 		93B85884A37D10B615D2BD8E /* libPods-tetris-tetrisTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8CB177C2EA822BAE709CD0 /* libPods-tetris-tetrisTests.a */; };
+		94C270E425C3E00400AD6F7A /* EarlsRevenge.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		4B29A91D9665C0C8D1F332E3 /* Pods-tetris.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris.release.xcconfig"; path = "Target Support Files/Pods-tetris/Pods-tetris.release.xcconfig"; sourceTree = "<group>"; };
 		730FF35C2624B572B22FA66A /* Pods-tetris-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tvOS.release.xcconfig"; path = "Target Support Files/Pods-tetris-tvOS/Pods-tetris-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tetris/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EarlsRevenge.ttf; path = ../src/assets/fonts/EarlsRevenge.ttf; sourceTree = "<group>"; };
 		A78E503FA54D24330066E29D /* Pods-tetris-tetrisTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tetrisTests.release.xcconfig"; path = "Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests.release.xcconfig"; sourceTree = "<group>"; };
 		A9E1BCDE6763553E20C67AAA /* libPods-tetris.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tetris.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F6BB41289730863DED5808 /* Pods-tetris-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-tetris-tvOSTests/Pods-tetris-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */,
 				13B07FAE1A68108700A75B9A /* tetris */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* tetrisTests */,
@@ -344,6 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94C270E425C3E00400AD6F7A /* EarlsRevenge.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -801,7 +805,9 @@
 				DEVELOPMENT_TEAM = LNN269VGPG;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = tetris/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -825,7 +831,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LNN269VGPG;
 				INFOPLIST_FILE = tetris/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -997,7 +1005,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1051,7 +1059,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

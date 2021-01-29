@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
   txtScore: {
     color: '#88FF55',
     fontSize: 22,
-    fontFamily: 'Iowan Old Style',
+    fontFamily: 'EarlsRevenge',
   },
 });

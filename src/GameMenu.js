@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
   Platform,
   Button,
+  FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
@@ -31,6 +32,28 @@ import {
   AdMobRewarded,
   PublisherBanner,
 } from 'react-native-admob';
+import {
+  NUMBER_OF_CELLS_HORIZONTAL,
+  NUMBER_OF_CELLS_VERTICAL,
+  GAME_SPEED,
+  CELL_LENGTH,
+  WIDTH_SCREEN,
+  HEIGHT_SCREEN,
+} from './Constants';
+import litegreen from './assets/litegreen.png';
+import tuquie from './assets/tuquie.png';
+import redbrown from './assets/redbrown.png';
+import litepink from './assets/litepink.png';
+import peach from './assets/peach.png';
+import bordo from './assets/bordo.png';
+import liteyellow from './assets/liteyellow.png';
+import graypink from './assets/graypink.png';
+
+import pinkpeach from './assets/pinkpeach.png';
+import {GameEngine} from 'react-native-game-engine';
+import {GameLoop} from './Systems';
+import Grid from './components/Grid';
+
 const SliderWidth = Dimensions.get('window').width - 200;
 const IS_ANDROID = Platform.OS === 'android';
 const IS_IOS = Platform.OS === 'ios';
@@ -54,6 +77,8 @@ export default function GameMenu({navigation, route}) {
   const [activeIndex, setActivateIndex] = useState(0);
   const [progress, setProgress] = useState(null);
   const [carouselRef, setCarouselRef] = useState(null);
+  const [running, setRunning] = useState(false);
+  const [gameEngine, setGameEngine] = useState(null);
 
   const [carouselStateAsset, setCarouselStateAsset] = useState([
     {
@@ -102,6 +127,7 @@ export default function GameMenu({navigation, route}) {
   });
 
   useEffect(() => {
+    // RenderGrid();
     async function scores() {
       try {
         let data = await AsyncStorage.getItem('Best_Scores');
@@ -117,6 +143,35 @@ export default function GameMenu({navigation, route}) {
       scores();
     }
   }, [gameOver]);
+
+  const onEvent = async (e) => {
+    if (e.type === 'game-over') {
+      setRunning(false);
+      if (score > 0) {
+        await addScore(score);
+        let gameMenuFunction = route.params?.setGameOver ?? true;
+        gameMenuFunction(true);
+      }
+
+      // Alert.alert('Game Over');
+      // navigation.navigate('GameMenu');
+      setModalVisible(true);
+    } else if (e.type === 'add-score') {
+      setScore(score + e.score);
+    }
+  };
+
+  const renderGrid = () => {
+    let grid = [];
+
+    for (i = 0; i < NUMBER_OF_CELLS_VERTICAL; i++) {
+      grid[i] = [];
+      for (j = 0; j < NUMBER_OF_CELLS_HORIZONTAL; j++) {
+        grid[i][j] = null;
+      }
+    }
+    return grid;
+  };
   ChangeBackground = async () => {
     try {
       const result = await fetch('https://picsum.photos/500/900');
@@ -171,15 +226,71 @@ export default function GameMenu({navigation, route}) {
     );
   };
 
+  const color = (c) => {
+    switch (c) {
+      case 'green': {
+        return litegreen;
+      }
+
+      case 'brown': {
+        return redbrown;
+      }
+
+      case 'blue': {
+        return tuquie;
+      }
+
+      case 'purple': {
+        return peach;
+      }
+
+      case 'pink': {
+        return litepink;
+      }
+
+      case 'red': {
+        return bordo;
+      }
+
+      case 'yellow': {
+        return liteyellow;
+      }
+
+      default: {
+        return graypink;
+      }
+    }
+  };
+
   return (
-    <ImageBackground
-      source={background}
+    <SafeAreaView
+      // source={background}
       style={{
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
+        flex: 1,
+        // alignItems: 'center',
+        // justifyContent: 'center',
       }}>
       <SafeAreaView style={styles.bestScore}>
+        <GameEngine
+          ref={(ref) => {
+            setGameEngine(ref);
+          }}
+          style={styles.gameEngine}
+          systems={[GameLoop]}
+          entities={{
+            grid: {
+              grid: renderGrid(),
+              //Velocidade do jogo
+              nextMove: GAME_SPEED,
+              updateFrequency: GAME_SPEED,
+              //Conponente rederizado
+              renderer: <Grid />,
+            },
+          }}
+          running={running}
+          onEvent={onEvent}
+        />
+
         <Image source={logo} style={styles.logo} />
 
         <Animatable.View
@@ -187,7 +298,7 @@ export default function GameMenu({navigation, route}) {
           easing="ease-out"
           iterationCount="infinite">
           <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
-            <Image source={pressstart} style={styles.logo} />
+            <Image source={pressstart} style={styles.logobottom} />
           </TouchableOpacity>
         </Animatable.View>
 
@@ -196,7 +307,7 @@ export default function GameMenu({navigation, route}) {
           onPress={() => {
             setModalVisible(true);
           }}>
-          <Image source={openhowto} style={styles.logo} />
+          <Image source={openhowto} style={styles.logobottom} />
         </TouchableOpacity>
 
         <BestScores data={bestScores}></BestScores>
@@ -246,18 +357,19 @@ export default function GameMenu({navigation, route}) {
             onPress={() => {
               setModalVisible(!modalVisible);
             }}>
-            <Image source={closehowto} style={styles.logo} />
+            <Image source={closehowto} style={styles.logobottom} />
           </TouchableOpacity>
         </View>
       </Modal>
       <BannerExample>
         <AdMobBanner
           adSize="smartBannerPortrait"
-          adUnitID="ca-app-pub-5713671504596281/1183271304"
-          ref={(el) => (this._smartBannerExample = el)}
+          // adUnitID="ca-app-pub-5713671504596281/6187910304"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          // ref={(el) => (this._smartBannerExample = el)}
         />
       </BannerExample>
-    </ImageBackground>
+    </SafeAreaView>
   );
 }
 
@@ -265,8 +377,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: 'pink',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   bestScore: {
     alignItems: 'center',
@@ -274,9 +386,17 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 300,
-    height: 60,
-    marginBottom: 30,
+    margin: 100,
+
+    width: 370,
+    height: 72,
+    // marginBottom: 350,
+  },
+
+  logobottom: {
+    width: 370,
+    height: 72,
+    // marginBottom: 100,
   },
 
   btnStart: {
@@ -313,9 +433,9 @@ const styles = StyleSheet.create({
   },
   openButton: {
     // backgroundColor: '#F194FF',
-    // borderRadius: 20,
-    // padding: 10,
-    elevation: 2,
+    borderRadius: 20,
+    padding: 30,
+    // elevation: 2,
   },
   textStyle: {
     color: 'white',
@@ -375,5 +495,11 @@ const styles = StyleSheet.create({
   example: {
     position: 'absolute',
     bottom: 1,
+  },
+
+  gameEngine: {
+    // bottom: 0,
+    // justifyContent: 'center',
+    // paddingBottom: 14,
   },
 });

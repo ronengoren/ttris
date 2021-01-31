@@ -41,6 +41,7 @@ import playagain from './assets/playagain.png';
 
 import gameoveralert from './assets/gameoveralert.png';
 import Score from './components/Score';
+import Level from './components/Level';
 
 const BannerExample = ({style, children, ...props}) => (
   <View {...props} style={[styles.example, style]}>
@@ -65,6 +66,7 @@ export default function App({navigation, route}) {
   const [pauseGame, setPauseGame] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVideoVisible, setModalVideoVisible] = useState(false);
+  const [nextLevelModalVisible, setNextLevelModalVisible] = useState(false);
   const [loadingModalVideoVisible, setLoadingModalVideoVisible] = useState(
     true,
   );
@@ -74,6 +76,9 @@ export default function App({navigation, route}) {
   const [shadowRadius, setShadowRadius] = useState(3);
   const [shadowOpacity, setShadowOpacity] = useState(0.3);
   const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(0);
+  const [gameSpeed, setGameSpeed] = useState(40);
+
   let engine = useRef();
   const countRef = useRef(count);
   countRef.current = count;
@@ -87,6 +92,7 @@ export default function App({navigation, route}) {
     setTimeout(() => {
       setLoadingModalVideoVisible(false);
       setRunning(true);
+      setLevel(1);
     }, 5000);
   }, []);
 
@@ -123,9 +129,35 @@ export default function App({navigation, route}) {
       setModalVisible(true);
     } else if (e.type === 'add-score') {
       setScore(score + e.score);
+      checkScore(score);
     }
   };
 
+  const checkScore = async (score) => {
+    // console.log(score);
+
+    if (score >= level * 1000) {
+      setLevel(level + 1);
+      nextLevel();
+    }
+  };
+
+  const nextLevel = async () => {
+    setNextLevelModalVisible(true);
+    setTimeout(() => {
+      setNextLevelModalVisible(false);
+    }, 1000);
+    setGameSpeed(gameSpeed - 5);
+    gameEngine.swap({
+      grid: {
+        grid: renderGrid(),
+        nextMove: GAME_SPEED,
+        updateFrequency: gameSpeed,
+        renderer: <Grid />,
+      },
+    });
+    // console.log(score);
+  };
   const onAnotherGame = async (e) => {
     setModalVisible(!modalVisible);
     setModalVideoVisible(true);
@@ -160,7 +192,7 @@ export default function App({navigation, route}) {
       grid: {
         grid: renderGrid(),
         nextMove: GAME_SPEED,
-        updateFrequency: GAME_SPEED,
+        updateFrequency: gameSpeed,
         renderer: <Grid />,
       },
     });
@@ -183,7 +215,7 @@ export default function App({navigation, route}) {
         style={{flex: 1}}>
         <StatusBar hidden={true} />
 
-        <Score score={score} />
+        <Score score={score} level={level} />
 
         <GameEngine
           ref={(ref) => {
@@ -196,7 +228,7 @@ export default function App({navigation, route}) {
               grid: renderGrid(),
               //Velocidade do jogo
               nextMove: GAME_SPEED,
-              updateFrequency: GAME_SPEED,
+              updateFrequency: gameSpeed,
               //Conponente rederizado
               renderer: <Grid />,
             },
@@ -283,8 +315,10 @@ export default function App({navigation, route}) {
           <BannerExample>
             <AdMobBanner
               adSize="smartBannerPortrait"
-              adUnitID="ca-app-pub-5713671504596281/1183271304"
-              ref={(el) => (this._smartBannerExample = el)}
+              adUnitID="ca-app-pub-3940256099942544/6300978111"
+
+              // adUnitID="ca-app-pub-5713671504596281/6187910304"
+              // ref={(el) => (this._smartBannerExample = el)}
             />
           </BannerExample>
         </View>
@@ -308,7 +342,7 @@ export default function App({navigation, route}) {
                     autoPlay
                     loop={false}
                     source={require('../img/animations/loading.json')}
-                    style={styles.animation}
+                    style={styles.loadingAnimation}
                     enableMergePathsAndroidForKitKatAndAbove
                     // progress={animationOneAV}
                     onAnimationFinish={onRelease()}
@@ -320,8 +354,10 @@ export default function App({navigation, route}) {
           <BannerExample>
             <AdMobBanner
               adSize="smartBannerPortrait"
-              adUnitID="ca-app-pub-5713671504596281/1183271304"
-              ref={(el) => (this._smartBannerExample = el)}
+              adUnitID="ca-app-pub-3940256099942544/6300978111"
+
+              // adUnitID="ca-app-pub-5713671504596281/6187910304"
+              // ref={(el) => (this._smartBannerExample = el)}
             />
           </BannerExample>
         </Modal>
@@ -345,6 +381,45 @@ export default function App({navigation, route}) {
                     autoPlay
                     loop={false}
                     source={require('../img/animations/loading.json')}
+                    style={styles.loadingAnimation}
+                    enableMergePathsAndroidForKitKatAndAbove
+                    // progress={animationOneAV}
+                    // onAnimationFinish={onRelease()}
+                  />
+                </Animated.View>
+              </View>
+            </View>
+            <BannerExample>
+              <AdMobBanner
+                adSize="smartBannerPortrait"
+                // adUnitID="ca-app-pub-5713671504596281/6187910304"
+                adUnitID="ca-app-pub-3940256099942544/6300978111"
+
+                // ref={(el) => (this._smartBannerExample = el)}
+              />
+            </BannerExample>
+          </View>
+        </Modal>
+      ) : null}
+      {nextLevelModalVisible ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={nextLevelModalVisible}
+          onRequestClose={() => {
+            setFocused(true);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalViewButton}>
+                <Animated.View
+                  style={{
+                    flex: 1,
+                  }}>
+                  <LottieView
+                    autoPlay
+                    loop={false}
+                    source={require('../img/animations/nextLevel.json')}
                     style={styles.animation}
                     enableMergePathsAndroidForKitKatAndAbove
                     // progress={animationOneAV}
@@ -356,8 +431,10 @@ export default function App({navigation, route}) {
             <BannerExample>
               <AdMobBanner
                 adSize="smartBannerPortrait"
-                adUnitID="ca-app-pub-5713671504596281/1183271304"
-                ref={(el) => (this._smartBannerExample = el)}
+                // adUnitID="ca-app-pub-5713671504596281/6187910304"
+                adUnitID="ca-app-pub-3940256099942544/6300978111"
+
+                // ref={(el) => (this._smartBannerExample = el)}
               />
             </BannerExample>
           </View>
@@ -460,6 +537,12 @@ const styles = StyleSheet.create({
     width: 100 + '%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  loadingAnimation: {
+    width: 100 + '%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
   },
   example: {
     position: 'absolute',

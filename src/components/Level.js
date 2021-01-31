@@ -4,12 +4,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-export default function Score({score, level}) {
+export default function Level({score}) {
   return (
     <SafeAreaView style={styles.score}>
-      <Text style={styles.txtScore}>
-        SCORE: {score} LEVEL: {level}
-      </Text>
+      <Text style={styles.txtScore}>SCORE: {score}</Text>
     </SafeAreaView>
   );
 }

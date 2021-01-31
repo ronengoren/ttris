@@ -13,7 +13,7 @@ const HEIGHT_SCREEN = Dimensions.get('window').height - 75;
 const NUMBER_OF_CELLS_HORIZONTAL = 12;
 const NUMBER_OF_CELLS_VERTICAL = computeNumberOfCellsVertical();
 const CELL_LENGTH = WIDTH_SCREEN / NUMBER_OF_CELLS_HORIZONTAL;
-const GAME_SPEED = 15; //min = 1
+const GAME_SPEED = 40; //min = 1
 
 export {
   WIDTH_SCREEN,

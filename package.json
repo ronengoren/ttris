@@ -28,10 +28,14 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.2",
+    "react-native-shared-element": "^0.7.0",
     "react-native-size-matters": "^0.4.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-swipe-gestures": "^1.0.5",
+    "react-native-touchable-scale": "^2.1.2",
     "react-native-vector-icons": "^7.1.0",
+    "react-navigation-fluid-transitions": "^0.3.2",
+    "react-navigation-shared-element": "^3.0.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

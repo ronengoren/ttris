@@ -53,6 +53,9 @@ import pinkpeach from './assets/pinkpeach.png';
 import {GameEngine} from 'react-native-game-engine';
 import {GameLoop} from './Systems';
 import Grid from './components/Grid';
+import {SharedElement} from 'react-navigation-shared-element';
+import TouchableScale from 'react-native-touchable-scale';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SliderWidth = Dimensions.get('window').width - 200;
 const IS_ANDROID = Platform.OS === 'android';
@@ -263,59 +266,66 @@ export default function GameMenu({navigation, route}) {
   };
 
   return (
-    <SafeAreaView
-      // source={background}
-      style={{
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-      }}>
-      <SafeAreaView style={styles.bestScore}>
-        <GameEngine
-          ref={(ref) => {
-            setGameEngine(ref);
-          }}
-          style={styles.gameEngine}
-          systems={[GameLoop]}
-          entities={{
-            grid: {
-              grid: renderGrid(),
-              //Velocidade do jogo
-              nextMove: GAME_SPEED,
-              updateFrequency: GAME_SPEED,
-              //Conponente rederizado
-              renderer: <Grid />,
-            },
-          }}
-          running={running}
-          onEvent={onEvent}
-        />
-
-        <Image source={logo} style={styles.logo} />
-
-        <Animatable.View
-          animation="jello"
-          easing="ease-out"
-          iterationCount="infinite">
-          <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
-            <Image source={pressstart} style={styles.logobottom} />
-          </TouchableOpacity>
-        </Animatable.View>
-
-        <TouchableOpacity
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(true);
-          }}>
-          <Image source={openhowto} style={styles.logobottom} />
+    <SafeAreaView style={styles.container}>
+      <GameEngine
+        ref={(ref) => {
+          setGameEngine(ref);
+        }}
+        style={styles.gameEngine}
+        systems={[GameLoop]}
+        entities={{
+          grid: {
+            grid: renderGrid(),
+            //Velocidade do jogo
+            nextMove: GAME_SPEED,
+            updateFrequency: GAME_SPEED,
+            //Conponente rederizado
+            renderer: <Grid />,
+          },
+        }}
+        running={running}
+        onEvent={onEvent}
+      />
+      <LottieView
+        autoPlay
+        loop={true}
+        source={require('../img/animations/logo.json')}
+        style={styles.logo}
+        enableMergePathsAndroidForKitKatAndAbove
+      />
+      {/* <Image source={logo} style={styles.logo} /> */}
+      <TouchableOpacity
+        style={styles.openHowToButton}
+        onPress={() => {
+          setModalVisible(true);
+        }}>
+        {/* <Image source={openhowto} style={styles.logobottom} /> */}
+        <Icon name="help-circle" size={60} color="#88FF55" />
+      </TouchableOpacity>
+      <Animatable.View
+        animation="jello"
+        easing="ease-out"
+        iterationCount="infinite">
+        <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
+          <Image source={pressstart} style={styles.logobottom} />
         </TouchableOpacity>
+      </Animatable.View>
 
-        <BestScores data={bestScores}></BestScores>
-      </SafeAreaView>
+      {/* <TouchableOpacity
+        style={styles.openButton}
+        onPress={() => {
+          setModalVisible(true);
+        }}>
+        <Image source={openhowto} style={styles.logobottom} />
+      </TouchableOpacity> */}
+
+      <View style={{flex: 1, marginBottom: 160}}>
+        <BestScores data={bestScores} style={styles.bestScores}></BestScores>
+      </View>
 
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
           console.log('Modal has been closed.');
@@ -364,8 +374,8 @@ export default function GameMenu({navigation, route}) {
       <BannerExample>
         <AdMobBanner
           adSize="smartBannerPortrait"
-          // adUnitID="ca-app-pub-5713671504596281/6187910304"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          adUnitID="ca-app-pub-5713671504596281/6187910304"
+          // adUnitID="ca-app-pub-3940256099942544/6300978111"
           // ref={(el) => (this._smartBannerExample = el)}
         />
       </BannerExample>
@@ -376,51 +386,51 @@ export default function GameMenu({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'pink',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  bestScore: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'flex-start',
+    // justifyContent: 'center',
+    // padding: 20,
   },
 
   logo: {
-    margin: 100,
-
-    width: 370,
-    height: 72,
-    // marginBottom: 350,
+    // margin: 100,
+    width: Dimensions.get('window').width / 1.7,
+    // height: 72,
+    top: 1,
+    position: 'absolute',
   },
 
   logobottom: {
-    width: 370,
-    height: 72,
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height / 7,
     // marginBottom: 100,
   },
 
   btnStart: {
-    // paddingTop: 30,
-    // backgroundColor: '#FFF',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 2.5,
+    // flex: 1,
+    paddingVertical: 40,
   },
+  bestScores: {},
 
   txtBtnStart: {
-    fontSize: 20,
-    color: '#006400',
-    paddingHorizontal: 30,
-    paddingVertical: 20,
+    // fontSize: 20,
+    // color: '#006400',
+    // paddingHorizontal: 30,
+    // paddingVertical: 20,
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    // marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    // margin: 20,
     // backgroundColor: 'white',
     // borderRadius: 20,
-    padding: 35,
+    // padding: 35,
     alignItems: 'center',
     // shadowColor: '#000',
     // shadowOffset: {
@@ -433,14 +443,17 @@ const styles = StyleSheet.create({
   },
   openButton: {
     // backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 30,
+    // borderRadius: 20,
+    // padding: 30,
     // elevation: 2,
   },
+  openHowToButton: {
+    width: Dimensions.get('window').width / 1.2,
+  },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    // color: 'white',
+    // fontWeight: 'bold',
+    // textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
@@ -448,18 +461,17 @@ const styles = StyleSheet.create({
   },
   animation: {
     width: 80,
-
     // height: 100,
   },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover',
-  },
+  // image: {
+  //   ...StyleSheet.absoluteFillObject,
+  //   resizeMode: 'cover',
+  // },
   imageContainer: {
-    flex: 1,
-    marginBottom: Platform.select({ios: 0, android: 1}), // Prevent a random Android rendering issue
-    backgroundColor: 'white',
-    borderRadius: 8,
+    // flex: 1,
+    // marginBottom: Platform.select({ios: 0, android: 1}), // Prevent a random Android rendering issue
+    // backgroundColor: 'white',
+    // borderRadius: 8,
   },
   slider: {
     // marginTop: 5,
@@ -476,15 +488,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: entryBorderRadius,
   },
   title: {
-    fontSize: 12,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    // backgroundColor: 'black',
-    marginBottom: 50,
+    // fontSize: 12,
+    // textAlign: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // alignSelf: 'center',
+    // fontWeight: 'bold',
+    // textAlign: 'center',
+    // // backgroundColor: 'black',
+    // marginBottom: 50,
   },
   dotStyle: {
     // marginBottom: 60,

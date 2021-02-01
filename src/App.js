@@ -16,7 +16,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Tetris from '../src/components/Tetris';
+// import Tetris from '../src/components/Tetris';
 import 'react-native-gesture-handler';
 import Routes from './Routes';
 

@@ -13,17 +13,13 @@ import {
   Image,
   Animated,
 } from 'react-native';
-
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-
 import {GameEngine} from 'react-native-game-engine';
 import {GameLoop} from './Systems';
 import CountDown from 'react-native-countdown-component';
 import {CommonActions} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-
 import Grid from './components/Grid';
-
 import {
   NUMBER_OF_CELLS_HORIZONTAL,
   NUMBER_OF_CELLS_VERTICAL,
@@ -36,12 +32,11 @@ import {
   PublisherBanner,
 } from 'react-native-admob';
 import {addScore} from './Data/score';
-
 import playagain from './assets/playagain.png';
-
 import gameoveralert from './assets/gameoveralert.png';
 import Score from './components/Score';
 import Level from './components/Level';
+import {SharedElement} from 'react-navigation-shared-element';
 
 const BannerExample = ({style, children, ...props}) => (
   <View {...props} style={[styles.example, style]}>
@@ -266,6 +261,8 @@ export default function App({navigation, route}) {
                 style={{
                   flex: 1,
                   marginBottom: 20,
+                  backgroundColor: 'white',
+                  opacity: 0.8,
                 }}>
                 <Image style={styles.gameover} source={gameoveralert} />
                 <Image style={styles.gameover} source={playagain} />
@@ -315,9 +312,9 @@ export default function App({navigation, route}) {
           <BannerExample>
             <AdMobBanner
               adSize="smartBannerPortrait"
-              adUnitID="ca-app-pub-3940256099942544/6300978111"
+              // adUnitID="ca-app-pub-3940256099942544/6300978111"
 
-              // adUnitID="ca-app-pub-5713671504596281/6187910304"
+              adUnitID="ca-app-pub-5713671504596281/6187910304"
               // ref={(el) => (this._smartBannerExample = el)}
             />
           </BannerExample>
@@ -354,9 +351,9 @@ export default function App({navigation, route}) {
           <BannerExample>
             <AdMobBanner
               adSize="smartBannerPortrait"
-              adUnitID="ca-app-pub-3940256099942544/6300978111"
+              // adUnitID="ca-app-pub-3940256099942544/6300978111"
 
-              // adUnitID="ca-app-pub-5713671504596281/6187910304"
+              adUnitID="ca-app-pub-5713671504596281/6187910304"
               // ref={(el) => (this._smartBannerExample = el)}
             />
           </BannerExample>
@@ -392,8 +389,8 @@ export default function App({navigation, route}) {
             <BannerExample>
               <AdMobBanner
                 adSize="smartBannerPortrait"
-                // adUnitID="ca-app-pub-5713671504596281/6187910304"
-                adUnitID="ca-app-pub-3940256099942544/6300978111"
+                adUnitID="ca-app-pub-5713671504596281/6187910304"
+                // adUnitID="ca-app-pub-3940256099942544/6300978111"
 
                 // ref={(el) => (this._smartBannerExample = el)}
               />

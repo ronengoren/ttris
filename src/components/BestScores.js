@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 20,
+    fontSize: 25,
     color: '#88FF55',
     paddingLeft: 20,
     fontFamily: 'EarlsRevenge',

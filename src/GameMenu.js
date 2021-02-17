@@ -21,7 +21,6 @@ import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
 import BestScores from './components/BestScores';
 
-import logo from './assets/logo.png';
 import pressstart from './assets/pressstart.png';
 import openhowto from './assets/openhowto.png';
 import closehowto from './assets/closehowto.png';
@@ -40,22 +39,24 @@ import {
   WIDTH_SCREEN,
   HEIGHT_SCREEN,
 } from './Constants';
-import litegreen from './assets/litegreen.png';
-import tuquie from './assets/tuquie.png';
-import redbrown from './assets/redbrown.png';
-import litepink from './assets/litepink.png';
-import peach from './assets/peach.png';
-import bordo from './assets/bordo.png';
-import liteyellow from './assets/liteyellow.png';
-import graypink from './assets/graypink.png';
+import litegreen from './assets/litegreen1.png';
+import tuquie from './assets/tuquie1.png';
+import redbrown from './assets/redbrown1.png';
+import litepink from './assets/litepink1.png';
+import peach from './assets/peach1.png';
+import bordo from './assets/bordo1.png';
+import liteyellow from './assets/liteyellow1.png';
+import graypink from './assets/graypink1.png';
 
-import pinkpeach from './assets/pinkpeach.png';
+import pinkpeach from './assets/pinkpeach1.png';
 import {GameEngine} from 'react-native-game-engine';
 import {GameLoop} from './Systems';
 import Grid from './components/Grid';
 import {SharedElement} from 'react-navigation-shared-element';
 import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+AdMobInterstitial.setAdUnitID('ca-app-pub-5713671504596281/5644315940');
 
 const SliderWidth = Dimensions.get('window').width - 200;
 const IS_ANDROID = Platform.OS === 'android';
@@ -66,13 +67,16 @@ const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
-const BannerExample = ({style, title, children, ...props}) => (
-  <View {...props} style={[styles.example, style]}>
-    <Text style={styles.title}>{title}</Text>
-    <View>{children}</View>
-  </View>
-);
-
+showModalAd = () => {
+  // AdMobInterstitial.requestAd()
+  //   .then(() => {
+  //     receiveHint();
+  //     AdMobInterstitial.showAd();
+  //   })
+  //   .catch((err) => {
+  //     receiveHint();
+  //   });
+};
 const bannerWidths = [200, 250, 320];
 
 export default function GameMenu({navigation, route}) {
@@ -126,10 +130,11 @@ export default function GameMenu({navigation, route}) {
   const [restartGame, setRestartGame] = useState(false);
   const [bestScores, setBestScores] = useState(null);
   const [background, setBackground] = useState({
-    uri: 'https://picsum.photos/500/900',
+    uri: 'http://placeimg.com/500/900/arch ',
   });
 
   useEffect(() => {
+    ChangeBackground();
     // RenderGrid();
     async function scores() {
       try {
@@ -177,14 +182,26 @@ export default function GameMenu({navigation, route}) {
   };
   ChangeBackground = async () => {
     try {
-      const result = await fetch('https://picsum.photos/500/900');
+      const result = await fetch('http://placeimg.com/500/900/arch');
 
       setBackground({uri: result.url});
     } catch (error) {
-      const image = {uri: 'https://picsum.photos/500/900'};
+      const image = {uri: 'http://placeimg.com/500/900/arch'};
 
       setBackground(image);
     }
+  };
+
+  showModalAd = () => {
+    AdMobInterstitial.requestAd()
+      .then(() => {
+        StartGame();
+
+        AdMobInterstitial.showAd();
+      })
+      .catch((err) => {
+        StartGame();
+      });
   };
 
   StartGame = async () => {
@@ -266,8 +283,16 @@ export default function GameMenu({navigation, route}) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <GameEngine
+    <ImageBackground
+      source={background}
+      style={{
+        width: 100 + '%',
+        height: 100 + '%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <SafeAreaView style={styles.container}>
+        {/* <GameEngine
         ref={(ref) => {
           setGameEngine(ref);
         }}
@@ -285,33 +310,33 @@ export default function GameMenu({navigation, route}) {
         }}
         running={running}
         onEvent={onEvent}
-      />
-      <LottieView
+      /> */}
+        {/* <LottieView
         autoPlay
         loop={true}
         source={require('../img/animations/logo.json')}
         style={styles.logo}
         enableMergePathsAndroidForKitKatAndAbove
-      />
-      {/* <Image source={logo} style={styles.logo} /> */}
-      <TouchableOpacity
-        style={styles.openHowToButton}
-        onPress={() => {
-          setModalVisible(true);
-        }}>
-        {/* <Image source={openhowto} style={styles.logobottom} /> */}
-        <Icon name="help-circle" size={60} color="#88FF55" />
-      </TouchableOpacity>
-      <Animatable.View
-        animation="jello"
-        easing="ease-out"
-        iterationCount="infinite">
-        <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
-          <Image source={pressstart} style={styles.logobottom} />
+      /> */}
+        {/* <Image source={logo} style={styles.logo} /> */}
+        <TouchableOpacity
+          style={styles.openHowToButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          {/* <Image source={openhowto} style={styles.logobottom} /> */}
+          <Icon name="help-circle" size={60} color="#88FF55" />
         </TouchableOpacity>
-      </Animatable.View>
+        <Animatable.View
+          animation="jello"
+          easing="ease-out"
+          iterationCount="infinite">
+          <TouchableOpacity style={styles.btnStart} onPress={() => StartGame()}>
+            <Image source={pressstart} style={styles.logobottom} />
+          </TouchableOpacity>
+        </Animatable.View>
 
-      {/* <TouchableOpacity
+        {/* <TouchableOpacity
         style={styles.openButton}
         onPress={() => {
           setModalVisible(true);
@@ -319,67 +344,60 @@ export default function GameMenu({navigation, route}) {
         <Image source={openhowto} style={styles.logobottom} />
       </TouchableOpacity> */}
 
-      <View style={{flex: 1, marginBottom: 160}}>
-        <BestScores data={bestScores} style={styles.bestScores}></BestScores>
-      </View>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          console.log('Modal has been closed.');
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                // width: 40 + '%',
-                // height: 40 + '%',
-              }}>
-              <Carousel
-                autoplay={true}
-                enableMomentum={false}
-                lockScrollWhileSnapping={true}
-                layout={'default'}
-                ref={carouselRef}
-                data={carouselStateAsset}
-                sliderWidth={SliderWidth}
-                itemWidth={200}
-                hasParallaxImages={true}
-                inactiveSlideScale={0.94}
-                inactiveSlideOpacity={0.7}
-                containerCustomStyle={styles.slider}
-                contentContainerCustomStyle={styles.sliderContentContainer}
-                renderItem={_renderItem}
-                useScrollView
-                onSnapToItem={(index) => setActivateIndex(index)}
-                activeSlideAlignment="center"
-              />
-            </View>
-          </View>
-          {renderPagination()}
-
-          <TouchableOpacity
-            style={{...styles.openButton}}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}>
-            <Image source={closehowto} style={styles.logobottom} />
-          </TouchableOpacity>
+        <View style={{flex: 1, marginBottom: 160}}>
+          <BestScores data={bestScores} style={styles.bestScores}></BestScores>
         </View>
-      </Modal>
-      <BannerExample>
-        <AdMobBanner
-          adSize="smartBannerPortrait"
-          adUnitID="ca-app-pub-5713671504596281/6187910304"
-          // adUnitID="ca-app-pub-3940256099942544/6300978111"
-          // ref={(el) => (this._smartBannerExample = el)}
-        />
-      </BannerExample>
-    </SafeAreaView>
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  // width: 40 + '%',
+                  // height: 40 + '%',
+                }}>
+                <Carousel
+                  autoplay={true}
+                  enableMomentum={false}
+                  lockScrollWhileSnapping={true}
+                  layout={'default'}
+                  ref={carouselRef}
+                  data={carouselStateAsset}
+                  sliderWidth={SliderWidth}
+                  itemWidth={200}
+                  hasParallaxImages={true}
+                  inactiveSlideScale={0.94}
+                  inactiveSlideOpacity={0.7}
+                  containerCustomStyle={styles.slider}
+                  contentContainerCustomStyle={styles.sliderContentContainer}
+                  renderItem={_renderItem}
+                  useScrollView
+                  onSnapToItem={(index) => setActivateIndex(index)}
+                  activeSlideAlignment="center"
+                />
+              </View>
+            </View>
+            {renderPagination()}
+
+            <TouchableOpacity
+              style={{...styles.openButton}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <Image source={closehowto} style={styles.logobottom} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 

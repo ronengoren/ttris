@@ -27,7 +27,7 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-5713671504596281~8974131412</string>
 	<key>LSApplicationCategoryType</key>
-	<string/>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -44,7 +44,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

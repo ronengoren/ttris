@@ -25,12 +25,7 @@ import {
   NUMBER_OF_CELLS_VERTICAL,
   GAME_SPEED,
 } from './Constants';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  AdMobRewarded,
-  PublisherBanner,
-} from 'react-native-admob';
+
 import {addScore} from './Data/score';
 import playagain from './assets/playagain.png';
 import gameoveralert from './assets/gameoveralert.png';
@@ -38,15 +33,20 @@ import Score from './components/Score';
 import Level from './components/Level';
 import {SharedElement} from 'react-navigation-shared-element';
 
-const BannerExample = ({style, children, ...props}) => (
-  <View {...props} style={[styles.example, style]}>
-    {/* <Text style={styles.title}>{title}</Text> */}
-    <View>{children}</View>
-  </View>
-);
 const ANIMATION_ONE_WIDTH = 160;
 const ANIMATION_ONE_RATIO = 160 / 160;
 
+AdMobInterstitial.setAdUnitID(
+  Platform.OS === 'ios'
+    ? 'ca-app-pub-5713671504596281/4036577035'
+    : 'ca-app-pub-5713671504596281/3295067352',
+);
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  AdMobRewarded,
+  PublisherBanner,
+} from 'react-native-admob';
 export default function App({navigation, route}) {
   const animationOneAV = useRef(new Animated.Value(0)).current;
   const [gameEngine, setGameEngine] = useState(null);
@@ -142,7 +142,7 @@ export default function App({navigation, route}) {
     setTimeout(() => {
       setNextLevelModalVisible(false);
     }, 1000);
-    setGameSpeed(gameSpeed - 5);
+    setGameSpeed(gameSpeed - 1);
     gameEngine.swap({
       grid: {
         grid: renderGrid(),
@@ -153,8 +153,21 @@ export default function App({navigation, route}) {
     });
     // console.log(score);
   };
-  const onAnotherGame = async (e) => {
+  showModalAd = () => {
     setModalVisible(!modalVisible);
+    AdMobInterstitial.requestAd()
+      .then(() => {
+        AdMobInterstitial.showAd();
+        onAnotherGame();
+      })
+
+      .catch((err) => {
+        // onAnotherGame();
+        setModalVisible(!modalVisible);
+        setModalVideoVisible(true);
+      });
+  };
+  const onAnotherGame = async (e) => {
     setModalVideoVisible(true);
   };
 
@@ -210,8 +223,6 @@ export default function App({navigation, route}) {
         style={{flex: 1}}>
         <StatusBar hidden={true} />
 
-        <Score score={score} level={level} />
-
         <GameEngine
           ref={(ref) => {
             setGameEngine(ref);
@@ -231,6 +242,7 @@ export default function App({navigation, route}) {
           running={running}
           onEvent={onEvent}
         />
+        <Score score={score} level={level} />
 
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -279,7 +291,7 @@ export default function App({navigation, route}) {
                       shadowRadius,
                     }}
                     onPress={() => {
-                      onAnotherGame();
+                      showModalAd();
                     }}>
                     <Image
                       style={styles.tinyLogo}
@@ -309,15 +321,6 @@ export default function App({navigation, route}) {
               </View>
             </View>
           </View>
-          <BannerExample>
-            <AdMobBanner
-              adSize="smartBannerPortrait"
-              // adUnitID="ca-app-pub-3940256099942544/6300978111"
-
-              adUnitID="ca-app-pub-5713671504596281/6187910304"
-              // ref={(el) => (this._smartBannerExample = el)}
-            />
-          </BannerExample>
         </View>
       </Modal>
       {modalVideoVisible ? (
@@ -331,7 +334,7 @@ export default function App({navigation, route}) {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalViewButton}>
-                <Animated.View
+                <View
                   style={{
                     flex: 1,
                   }}>
@@ -344,19 +347,10 @@ export default function App({navigation, route}) {
                     // progress={animationOneAV}
                     onAnimationFinish={onRelease()}
                   />
-                </Animated.View>
+                </View>
               </View>
             </View>
           </View>
-          <BannerExample>
-            <AdMobBanner
-              adSize="smartBannerPortrait"
-              // adUnitID="ca-app-pub-3940256099942544/6300978111"
-
-              adUnitID="ca-app-pub-5713671504596281/6187910304"
-              // ref={(el) => (this._smartBannerExample = el)}
-            />
-          </BannerExample>
         </Modal>
       ) : null}
       {loadingModalVideoVisible ? (
@@ -370,7 +364,7 @@ export default function App({navigation, route}) {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalViewButton}>
-                <Animated.View
+                <View
                   style={{
                     flex: 1,
                   }}>
@@ -383,18 +377,9 @@ export default function App({navigation, route}) {
                     // progress={animationOneAV}
                     // onAnimationFinish={onRelease()}
                   />
-                </Animated.View>
+                </View>
               </View>
             </View>
-            <BannerExample>
-              <AdMobBanner
-                adSize="smartBannerPortrait"
-                adUnitID="ca-app-pub-5713671504596281/6187910304"
-                // adUnitID="ca-app-pub-3940256099942544/6300978111"
-
-                // ref={(el) => (this._smartBannerExample = el)}
-              />
-            </BannerExample>
           </View>
         </Modal>
       ) : null}
@@ -409,7 +394,7 @@ export default function App({navigation, route}) {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalViewButton}>
-                <Animated.View
+                <View
                   style={{
                     flex: 1,
                   }}>
@@ -422,18 +407,9 @@ export default function App({navigation, route}) {
                     // progress={animationOneAV}
                     // onAnimationFinish={onRelease()}
                   />
-                </Animated.View>
+                </View>
               </View>
             </View>
-            <BannerExample>
-              <AdMobBanner
-                adSize="smartBannerPortrait"
-                // adUnitID="ca-app-pub-5713671504596281/6187910304"
-                adUnitID="ca-app-pub-3940256099942544/6300978111"
-
-                // ref={(el) => (this._smartBannerExample = el)}
-              />
-            </BannerExample>
           </View>
         </Modal>
       ) : null}

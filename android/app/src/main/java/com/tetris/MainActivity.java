@@ -1,4 +1,4 @@
-package com.tetris;
+package com.tetret;
 
 import com.facebook.react.ReactActivity;
 

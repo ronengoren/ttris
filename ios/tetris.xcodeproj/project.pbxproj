@@ -20,8 +20,8 @@
 		89A7CFA124942910CFE517B3 /* libPods-tetris.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E1BCDE6763553E20C67AAA /* libPods-tetris.a */; };
 		905ED3FECCD6CF0771C228DE /* libPods-tetris-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA79C0716660156C4DC14CF /* libPods-tetris-tvOS.a */; };
 		93B85884A37D10B615D2BD8E /* libPods-tetris-tetrisTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8CB177C2EA822BAE709CD0 /* libPods-tetris-tetrisTests.a */; };
+		94425D3625DD7867004651CD /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94425D3525DD7867004651CD /* Ionicons.ttf */; };
 		94C270E425C3E00400AD6F7A /* EarlsRevenge.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */; };
-		94DD18A125C8BAAD00DCF632 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94DD18A025C8BAAD00DCF632 /* Ionicons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +60,8 @@
 		4B29A91D9665C0C8D1F332E3 /* Pods-tetris.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris.release.xcconfig"; path = "Target Support Files/Pods-tetris/Pods-tetris.release.xcconfig"; sourceTree = "<group>"; };
 		730FF35C2624B572B22FA66A /* Pods-tetris-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tvOS.release.xcconfig"; path = "Target Support Files/Pods-tetris-tvOS/Pods-tetris-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tetris/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		94425D3525DD7867004651CD /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = ../../../Ionicons.ttf; sourceTree = "<group>"; };
 		94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EarlsRevenge.ttf; path = ../src/assets/fonts/EarlsRevenge.ttf; sourceTree = "<group>"; };
-		94DD18A025C8BAAD00DCF632 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = ../android/app/build/intermediates/merged_assets/debug/out/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		A78E503FA54D24330066E29D /* Pods-tetris-tetrisTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tetrisTests.release.xcconfig"; path = "Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests.release.xcconfig"; sourceTree = "<group>"; };
 		A9E1BCDE6763553E20C67AAA /* libPods-tetris.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tetris.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2F6BB41289730863DED5808 /* Pods-tetris-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tetris-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-tetris-tvOSTests/Pods-tetris-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				94DD18A025C8BAAD00DCF632 /* Ionicons.ttf */,
+				94425D3525DD7867004651CD /* Ionicons.ttf */,
 				94C270E325C3E00400AD6F7A /* EarlsRevenge.ttf */,
 				13B07FAE1A68108700A75B9A /* tetris */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -219,12 +219,10 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "tetrisTests" */;
 			buildPhases = (
 				7E637EEDE00F5C28F0E62721 /* [CP] Check Pods Manifest.lock */,
-				08F09B310C7DBBD9A85E3160 /* [CP] Prepare Artifacts */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				A4CFE7F0C7AF0AB35D7A5734 /* [CP] Copy Pods Resources */,
-				2A69D513F96102C6422305B0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -242,13 +240,11 @@
 			buildPhases = (
 				95E155EBB456EA12882D1D40 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
-				70BC14F785C3EC86F7646DC8 /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				DF2831034A8E84829260B8FE /* [CP] Copy Pods Resources */,
-				49DFF10E1561A1EC2C88AF34 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,7 +300,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -358,7 +354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94DD18A125C8BAAD00DCF632 /* Ionicons.ttf in Resources */,
+				94425D3625DD7867004651CD /* Ionicons.ttf in Resources */,
 				94C270E425C3E00400AD6F7A /* EarlsRevenge.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
@@ -397,25 +393,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		08F09B310C7DBBD9A85E3160 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests-artifacts.sh",
-				"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework",
-				"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0BF82A719967887A0F3716AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -438,23 +415,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2A69D513F96102C6422305B0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tetris-tetrisTests/Pods-tetris-tetrisTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -468,42 +428,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		49DFF10E1561A1EC2C88AF34 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tetris/Pods-tetris-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tetris/Pods-tetris-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		70BC14F785C3EC86F7646DC8 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tetris/Pods-tetris-artifacts.sh",
-				"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current/GoogleMobileAds.xcframework",
-				"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tetris/Pods-tetris-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		7E637EEDE00F5C28F0E62721 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -755,7 +679,7 @@
 				INFOPLIST_FILE = tetris/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -781,7 +705,7 @@
 				INFOPLIST_FILE = tetris/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
